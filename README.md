@@ -7,7 +7,7 @@
 clone file from github 
 
 ```bash
-git clone [https://github.com/drlaravel/drselfbot.git](https://github.com/Drlaravel/Dr-Self-Bot.git)
+git clone https://github.com/Drlaravel/Dr-Self-Bot.git
 
 cd Dr-Self-Bot
 ```
