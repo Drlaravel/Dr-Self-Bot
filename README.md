@@ -49,5 +49,6 @@ python3 self.py
 ###### /google (Googles the entered phrase/sentence)
 ###### /weather (Shows weather information of the given city)
 ###### /weather (Shows weather information of the given city)
+###### /translate (translate text messages)
 ###### some command for: (/boom,/pashm,/fuck_you,/smail,/hack_nasa,/mah,/love,/get_photo)
 
