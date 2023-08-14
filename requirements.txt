@@ -3,3 +3,4 @@ TgCrypto==1.2.3
 jdatetime==4.1.0
 googlesearch-python==1.1.0
 mtranslate==1.8
+googletrans==4.0.0-rc1
