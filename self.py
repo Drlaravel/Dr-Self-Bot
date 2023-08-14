@@ -6,15 +6,19 @@ from time import time, sleep, ctime
 from jdatetime import datetime as dt
 from googlesearch import search
 from requests import get
-
+from googletrans import Translator
+from yandex.Translater import Translater
 import time
 
+
+
+translator = Translator()
 weather_api = 'enter weather api here'
 
 bot = Client(
-	name="dr_bot",
-	api_id=1111,
-	api_hash="api_hash",
+	name="self_bot",
+	api_id=2421227,
+	api_hash="5cfbdb99e4477b828bf06a9cd1efeead",
 	#proxy={"scheme":"socks5", "hostname":"127.0.0.1", "port":1080},
 	hide_password=True
 )
@@ -97,20 +101,9 @@ Group permissions :
     except:
         print("Error Code 06")
 
-@bot.on_message(filters.me & filters.command(["dl"]))
-def name(Client, Message):
-    bot.delete_messages(Message.chat.id, Message.id)
-    try:
-        bot.download_media(Message.reply_to_message.photo.file_id)
-        try:
-            for root, dirs, files in os.walk('./downloads'):
-                for i in files:
-                    bot.send_photo("me", './downloads/' + i)
-                    os.remove('./downloads/' +  i)
-        except:
-            Message.edit("me", "Error Code 07")
-    except:
-        Message.edit("me", "Error occured whem downloading/uploading/removing image\nError Code 07.1")
+
+
+
 
 @bot.on_message(filters.me & filters.command(["dl_media"]))
 def name(Client, Message):
@@ -478,6 +471,32 @@ Humidity: {r.get('humidity')}'''
         Message.edit(f'{Message.text}\nEnter a city to search :/')
     else:
         Message.edit(f'{Message.text}\nEnter the city name properly.')
+
+
+@bot.on_message(filters.me & filters.command(["translate"]))
+def translate_text(client, message):
+    try:
+        if len(message.command) > 1:
+            text = message.text[11:]  # Remove the "/translate " part
+            message.edit_text(f'{message.text}\nTranslating...')
+
+            translations = {
+                'English': translator.translate(text, src='auto', dest='en').text,
+                'Arabic': translator.translate(text, src='auto', dest='ar').text,
+                'Persian': translator.translate(text, src='auto', dest='fa').text,
+                'Italian': translator.translate(text, src='auto', dest='it').text,
+                'Russian': translator.translate(text, src='auto', dest='ru').text
+            }
+
+            translation_result = '\n'.join(f'{lang}: {trans}' for lang, trans in translations.items())
+            message.edit_text(f'{message.text}\n\n{translation_result}')
+        elif len(message.command) == 1:
+            message.edit_text(f'{message.text}\nEnter a text to translate :/')
+        else:
+            message.edit_text(f'{message.text}\nError code 25')
+    except Exception as e:
+        print("Error:", e)
+
 
 
 bot.run()
