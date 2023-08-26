@@ -11,7 +11,6 @@ from yandex.Translater import Translater
 import time
 
 
-
 translator = Translator()
 weather_api = 'enter weather api here'
 
@@ -420,29 +419,20 @@ def get_id(Client, Message):
         bot.send_message(Message.chat.id, 'Error Code 23')
 
 @bot.on_message(filters.me & filters.command(["google"]))
-def search_query(Client, Message):
-    try:
+def google_search(Client, Message):
         if len(Message.command) > 1:
-            query = " ".join(Message.command[1:])
-            results = search(query, num=5, pause=2, user_agent="Mozilla/5.0", api_key=google_search_api_key)
-
-            response = "Search Results:\n\n"
-            for idx, result in enumerate(results, start=1):
-                response += f"{idx}. {result}\n"
-
-            bot.edit_message_text(
-                chat_id=Message.chat.id,
-                message_id=Message.message_id,
-                text=response
-            )
-        else:
-            bot.edit_message_text(
-                chat_id=Message.chat.id,
-                message_id=Message.message_id,
-                text=f"{Message.text}\nEnter a query to search."
-            )
-    except Exception as e:
-        print('Error during search:', e)
+            try:
+                l = ''
+                text = Message.text[8:]
+                search_results = search(text, num_results=5)  # Limit to 5 results
+                for i, result in enumerate(search_results, start=1):
+                    l += f'>> {i}. {result}\n'
+                Message.edit_text(Message.text + ' results:' + '\n\n' + l)
+            except Exception as e:
+                print(str(e))  # Print the error for debugging
+                Message.edit_text('Google search error, please try again.')
+        elif len(Message.command) == 1:
+            Message.edit(f'{Message.text}\nEnter a subject to search :/')
 
         
 @bot.on_message(filters.me & filters.command(["weather"]))
